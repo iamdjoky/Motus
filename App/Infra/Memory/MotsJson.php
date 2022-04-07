@@ -22,21 +22,23 @@ class MotsJson
     {
         $this->loadFile();
         shuffle($this->words);
-        if(!array_key_exists("currentWord",$_COOKIE)) {
+        if(!array_key_exists("currentWord",$_COOKIE) || $_COOKIE["currentWord"]=== "") {
             $this->currentWord = $this->words[0]['mot'];
             setcookie("currentWord", $this->currentWord);
             setcookie("nombreTentative", "0");
         }
         
-        $strLen = strlen($_COOKIE['currentWord']);
-        echo "Le mot contient : $strLen  caractères <br><br>";
+        
         return $this->currentWord;
 
     }
     public function TryWord($word){
+        
         $nombreTentative = $_COOKIE['nombreTentative'] + 1;
         setcookie("nombreTentative", "$nombreTentative");
         $currentWord = $_COOKIE['currentWord'];
+        $strLen = strlen($_COOKIE['currentWord']);
+        echo "Le mot contient : $strLen  caractères <br><br>";
         if($nombreTentative <= 6) {
             if (strlen($word) === strlen($_COOKIE['currentWord'])) {
                 echo "Tentative n° $nombreTentative ";
@@ -56,10 +58,14 @@ class MotsJson
             }
         }
         else{
-            echo "<h3 style='color: red'>Perdu !</h3>
-                <button onclick='replay'>Rejouer</button>
-            ";
-            echo "La solution était $currentWord " ; 
+            setcookie('nombreTentative', '0');
+            setcookie('currentWord', '');
+            
+            echo '<h3 style="color: red">Perdu !</h3>
+               
+                <a href="/"> Rejouer </a> <hr>
+            ';
+            echo "La solution était $currentWord "; 
         }
     }
 

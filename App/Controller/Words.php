@@ -24,6 +24,7 @@ class Words implements Controller
        $words->findWord();
 
        if(isset($_POST['word'])) {
+        $words->findWord();
         $words->TryWord($_POST['word']);
     }
         
