@@ -6,7 +6,7 @@ namespace App\Controller;
 
 class Error404 implements Controller
 {
-    public function render()
+    public function render(): void
     {
         echo 'Page 404';
     }
